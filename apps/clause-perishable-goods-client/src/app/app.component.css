@@ -1,0 +1,15 @@
+.hash {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ui.three.cards>.card{
+    max-width:350px;
+    min-width:200px;
+}
+
+.ui.three.cards>.card>.content:nth-of-type(2){
+    height:57px;
+}
+

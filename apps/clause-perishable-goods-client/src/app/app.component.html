@@ -1,0 +1,220 @@
+<div class="ui segments">
+    <div class="ui vertical secondary stripe segment">
+        <div class="ui text container">
+            <h3 class="ui header" id="deploy">Deploy your Smart Legal Contract</h3>
+            <p>Before you can start you need to create your legal contract.</p>
+            <p>Don't worry the lawyers have already done the hard bit! Just click the button below and follow the instructions. We'll see you again in a few minutes.</p>
+            <a href="https://hub.clause.io?tutorial=ibp-sample-perishable-goods" (click)="draftedContract()" target="_new" class="ui large button right labeled icon green"><i class="right external icon"></i>Draft your contract on Clause.io </a>
+        </div>
+    </div>
+    <div class="ui vertical secondary stripe segment">
+        <div class="ui text container">
+            <h3 class="ui header" id="welcomeback">Welcome back!</h3>
+            <p>Do you have your URL now? Great! Just paste it in the box below and we'll do the rest for you.</p>
+            <div class="ui fluid icon input" [ngClass]="{'error': urlStatus === 'INVALID', 'loading': urlStatus === 'LOADING','disabled': urlStatus === 'VALID'}">
+                <input type="text" placeholder="Your execution URL from Clause"  [(ngModel)]="service.data.shipment.smartClause" (ngModelChange)="validateClauseURL($event)">
+                <i class="icon" [ngClass]="{'green': urlStatus === 'VALID', 'check': urlStatus === 'VALID'}"></i>
+            </div>
+            <div class="ui error message" [hidden]="urlStatus !== 'INVALID'">
+                <i class="close icon"></i>
+                <div class="header">
+                Oops, that doesn't look right.
+                </div>
+                Please step through the instructions on Clause.io carefully and then come back to try again.
+            </div>
+            <div class="ui small centered list">
+                <a class="item">
+                    <i class="icon" [ngClass]="buildChecklistStyle(1)"></i>
+                    <div class="content"><div class="description">Your contract looks good</div></div>
+                </a>
+                <a class="item">
+                    <i class="icon" [ngClass]="buildChecklistStyle(2)"></i>
+                    <div class="content"><div class="description">Your Blockchain is up</div></div>
+                </a>
+                <a class="item">
+                    <i class="icon" [ngClass]="buildChecklistStyle(3)"></i>
+                    <div class="content"><div class="description">Grower invited to the Blockchain network</div></div>
+                </a>
+                <a class="item">
+                    <i class="icon" [ngClass]="buildChecklistStyle(4)"></i>
+                    <div class="content"><div class="description">Importer invited to the Blockchain network</div></div>
+                </a>
+            </div>
+            <div class="ui error message" id="errorMessage">
+                <i class="close icon"></i>
+                <div class="header">
+                Uh oh! Something went wrong.
+                </div>
+                <div class="description"></div>
+            </div>
+            <p [hidden]="step < 5">You're all set-up!</p>
+            <a [hidden]="step < 5" href="#submit" class="page-scroll"><div class="ui big primary right labeled icon button">Continue<i class="caret down icon"></i></div></a>        
+        </div>
+    </div>
+    <div class="ui vertical secondary segment stripe" id="submit">
+        <div class="ui three doubling special cards centered">
+            <div class="ui card blurring dimmable" [ngClass]="{'dimmed':step < 4}">
+                <div class="ui dimmer"></div>
+                <div class="image">
+                    <img src="/assets/images/grower.jpg">
+                </div>
+
+                <div class="content">
+                    <a class="header">Grower</a>
+                    <div class="description">
+                        <div class="label">
+                                Account Balance
+                        </div>
+                        <div class="ui middle aligned selection list huge">
+                            <div class="item big">
+                                <i class="large dollar sign middle aligned icon"></i>
+                                <div class="content">
+                                    <div class="header">{{service.data.grower.accountBalance}}</div>
+                                </div>
+                            </div>
+                            <div class="item big"> </div>
+                        </div>                   
+                    </div>
+                </div>
+                <div class="extra content">
+                    <div class="ui two buttons">
+                        <div class="ui blue button" [ngClass]="{'disabled':step !== 5 }" (click)="addShipment()">Release Shipment</div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui"><i class="huge chevron right icon"></i></div>
+            <div class="ui card blurring dimmable" [ngClass]="{'dimmed':step < 4}">
+                <div class="ui dimmer"></div>
+                
+                <div class="image">
+                    <img src="/assets/images/port.jpg">
+                </div>
+                <div class="content">
+                    <div class="right floated meta">
+                        <div class="ui label green basic">
+                            {{service.statusString()}}
+                        </div>
+                    </div>
+                    <div class="header">Shipment</div>
+                    <div class="description">
+                        <div class="label">
+                            Current Readings
+                        </div>        
+                        <div class="ui label huge right floated">{{readingCounter}}</div>            
+                        <div class="ui middle aligned selection list huge">
+                            <div class="item">
+                                <i class="big thermometer half middle aligned icon"></i>
+                                <div class="content">
+                                    <div class="header">{{service.data.shipment.currentTemp}} &deg;C</div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <i class="big tint middle aligned icon"></i>
+                                <div class="content">
+                                    <div class="header">{{service.data.shipment.currentHumidity}} %</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="extra content "> 
+                    <div class="ui two buttons">
+                        <div class="ui blue button" [ngClass]="{'disabled':step != 6}" (click)="showAddReadingModal()">Add Sensor Reading</div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui"><i class="huge chevron right icon"></i></div>
+            <div class="ui card blurring dimmable" [ngClass]="{'dimmed':step < 4}" >
+                <div class="ui dimmer"></div>              
+                <div class="image">
+                        <img src="/assets/images/importer.jpg">
+                </div>
+                <div class="content">
+                    <a class="header">Importer</a>
+                    <div class="description">                       
+                        <div class="label">
+                            Account Balance
+                        </div>
+                        <div class="ui middle aligned selection list huge">
+                            <div class="item big">
+                                <i class="large dollar sign middle aligned icon"></i>
+                                <div class="content">
+                                    <div class="header">{{service.data.importer.accountBalance}}</div>
+                                </div>
+                            </div>
+                            <div class="item big"></div>
+                        </div>                                
+                    </div>
+                </div>
+                <div class="extra content">
+                    <div class="ui two buttons">
+                        <div class="ui blue button" [ngClass]="{'disabled':readingCounter === 0 || step === 8}" (click)="sendReceived()">Accept Shipment</div>
+                    </div>
+                </div>
+            </div>
+        </div>      
+    </div>
+    <div class="ui vertical secondary segment">
+        <div class="ui container">
+            <h2 class="ui header">Blockchain Transactions</h2>
+            <div  class="ui six cards doubling ">
+                <div *ngFor="let block of service.data.historian; let i = index;" [attr.data-index]="i" class="ui blue card">
+                    <div class="content">
+                        <div class="right floated meta"><i class="linkify icon"></i>{{i+1}}</div>
+                        <div class="">{{extractTypeFromFQType(block.transactionType)}}</div>
+                        <div class="meta">
+                            <span>{{fromNow(block.transactionTimestamp)}}</span>
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <div class="right hash">
+                            {{block.transactionId}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui vertical secondary segment stripe" id="complete">
+        <div class="ui text container">
+            <div [hidden]="step < 8">
+                <h3 class="ui header">Congratulations!</h3>
+                <p>You've successfully completed a cycle through the demo. Why not reset and try with some different readings to test the contract logic?</p>
+                <p>You can also <a href="https://hub.clause.io/contracts/">modify the parameters of your contract in Clause</a> to vary the response. Just remember to <em>save</em> your contract when you're done, there's no need to modify the chaincode.</p>
+                <a href="#welcomeback" (click)="reset()"><div class="ui big red right labeled icon button">Reset<i class="undo icon"></i></div></a>        
+                <a href="#next" class="page-scroll"><div class="ui big primary right labeled icon button">Continue<i class="caret down icon"></i></div></a>        
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ui modal" id='new-reading-modal'>
+    <i class="close icon"></i>
+    <div class="header">
+        New Sensor Reading
+    </div>
+    <div class="content">        
+        <div class="description">
+        <div class="ui header">We're guessing that you don't have a shipping container data logger to hand?</div>
+        <p>It's ok, we'll just simulate some data with the form below.</p>
+        <div class="label">Temperature</div>
+            <div class="ui right labeled input">
+            <input type="text" [(ngModel)]="service.data.shipment.currentTemp">
+            <div class="ui basic label">&deg;C</div>
+            </div>
+            <div class="label">Humidity</div>
+            <div class="ui right labeled input">
+            <input type="text" [(ngModel)]="service.data.shipment.currentHumidity">
+            <div class="ui basic label">%</div>
+            </div>     
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui black deny button">
+        Cancel
+        </div>
+        <div class="ui positive button" (click)="addReading()">
+        Add Readings
+        </div>
+    </div>
+</div>
