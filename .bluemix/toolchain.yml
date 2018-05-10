@@ -8,7 +8,7 @@ template:
     - deploy
 
 toolchain:
-  name: 'demo-clause-ibm-perishable-goods-{{timestamp}}'
+  name: 'clause-perishable-demo-{{timestamp}}'
 
 services:
   repo:
