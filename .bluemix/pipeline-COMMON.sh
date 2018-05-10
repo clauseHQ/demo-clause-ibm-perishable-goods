@@ -14,7 +14,7 @@ function install_nodejs {
 }
 
 function install_composer {
-    npm install -g composer-cli@0.18.1 @ampretia/composer-wallet-cloudant
+    npm install -g composer-cli @ampretia/composer-wallet-cloudant
 }
 
 function install_jq {
