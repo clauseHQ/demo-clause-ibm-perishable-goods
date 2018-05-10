@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://composer-rest-server-cicero-perishable-network.mybluemix.net/api'
+  apiUrl: 'http://localhost:3000/api'
 };
