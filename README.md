@@ -10,10 +10,11 @@ The [Clause platform](https://clause.io) provides tooling to manage commercial c
 
 ### If you already have an IBM Blockchain Platform service ...
 
+> :warning: Sample not yet available in the samples gallery
+
 Choose this sample from the tiles in the Samples Gallery of your IBM Blockchain Platform instance. 
 
 <img src="docs/samples.png" width="750">
-> :warning: Sample not yet available in the samples gallery
 
 ### Otherwise
 
