@@ -13,11 +13,12 @@ The [Clause platform](https://clause.io) provides tooling to manage commercial c
 Choose this sample from the tiles in the Samples Gallery of your IBM Blockchain Platform instance. 
 
 <img src="docs/samples.png" width="750">
+> :warning: Sample not yet available in the samples gallery
 
 ### Otherwise
 
-Click the button below to automate the provision of a service on IBM Cloud and to deploy the contract and app contained in this repository.
+Click the link below to automate the provision of a service on IBM Cloud and to deploy the contract and app contained in this repository.
 
-> :warning: Toolchain icon not yet ready
+[Deploy to IBM Cloud](https://console.bluemix.net/devops/setup/deploy/?repository=https%3A//github.com/clauseHQ/demo-clause-ibm-perishable-goods&branch=master&env_id=ibm%3Ayp%3Aus-south&deploy-region=ibm%3Ayp%3Aus-south)
 
 &copy; Copyright 2018, Clause Inc. 
