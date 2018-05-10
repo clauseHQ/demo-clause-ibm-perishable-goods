@@ -95,7 +95,7 @@ describe('Perishable Shipping Network', async () => {
         }).then(definition => {
             businessNetworkDefinition = definition;
             // Install the Composer runtime for the new business network
-            return adminConnection.install(businessNetworkDefinition.getName());
+            return adminConnection.install(businessNetworkDefinition);
         }).then(() => {
             // Start the business network and configure an network admin identity
             const startOptions = {
@@ -106,7 +106,8 @@ describe('Perishable Shipping Network', async () => {
                     }
                 ]
             };
-            return adminConnection.start(businessNetworkDefinition, startOptions);
+            return adminConnection.start(businessNetworkDefinition.getName(), businessNetworkDefinition.getVersion(), startOptions);
+        
         }).then(adminCards => {
             // Import the network admin identity for us to use
             adminCardName = `${adminUserName}@${businessNetworkDefinition.getName()}`;
