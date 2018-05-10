@@ -8,7 +8,7 @@ template:
     - deploy
 
 toolchain:
-  name: 'clause-perishable-demo-{{timestamp}}'
+  name: 'clause-perishable-{{timestamp}}'
 
 services:
   repo:
