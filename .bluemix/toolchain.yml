@@ -1,7 +1,7 @@
 version: '2'
 template:
   name: "Clause Perishable Goods Demo"
-  description: "Deploy the Clause Perishable Goods Demo for IBM Blockchain Platform to IBM Cloud."
+  description: "The Delivery Pipeline automates the continuous deployment of the IBM Blockchain Starter Kit to IBM Cloud.\nDeployment of this toolchain should take about 10 minutes. While you are waiting you can get started with [setting up your Smart Legal Contract on Clause](https://hub.clause.io/open-signup?help=48).",
   required:
     - build
     - repo
@@ -16,7 +16,7 @@ services:
     parameters:
       repo_name: 'demo-clause-ibm-perishable-goods'
       repo_url: 'https://github.com/clauseHQ/demo-clause-ibm-perishable-goods'
-      type: clone
+      type: link
       has_issues: true
       enable_traceability: true
   build:
