@@ -22,11 +22,16 @@ export class AppComponent implements OnInit {
 
   constructor(public service: ComposerPerishableGoodsService, private http: HttpClient) {}
 
-  public reset() {
+  public reset(clearClauseURL = false) {
     this.step = 0;
     this.readingCounter = 0;
     this.service.reset();
-    this.validateClauseURL(null);
+    if (clearClauseURL) {
+      this.urlStatus = 'UNSET';
+      this.service.data.shipment.smartClause = '';
+    } else {
+      this.validateClauseURL(null);
+    }
   }
 
   public validateClauseURL(event) {

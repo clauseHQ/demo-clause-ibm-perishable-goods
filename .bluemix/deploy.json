@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "Blockchain Starter Kit",
   "description": "",
-  "longDescription": "The Delivery Pipeline automates the continuous deployment of the IBM Blockchain Starter Kit to IBM Cloud.",
+  "longDescription": "The Delivery Pipeline automates the continuous deployment of the IBM Blockchain Starter Kit to IBM Cloud.\nDeployment of this toolchain should take about 10 minutes. While you are waiting you can get started with [setting up your Smart Legal Contract on Clause](https://hub.clause.io/open-signup?help=48).",
   "type": "object",
   "properties": {
     "deploy-region": {

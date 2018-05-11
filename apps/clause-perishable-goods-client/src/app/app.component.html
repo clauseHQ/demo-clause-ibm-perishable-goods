@@ -4,7 +4,7 @@
             <h3 class="ui header" id="deploy">Deploy your Smart Legal Contract</h3>
             <p>Before you can start you need to create your legal contract.</p>
             <p>Don't worry the lawyers have already done the hard bit! Just click the button below and follow the instructions. We'll see you again in a few minutes.</p>
-            <a href="https://hub.clause.io?tutorial=ibp-sample-perishable-goods" (click)="draftedContract()" target="_new" class="ui large button right labeled icon green"><i class="right external icon"></i>Draft your contract on Clause.io </a>
+            <a href="https://hub.clause.io/open-signup?help=48" (click)="draftedContract()" target="_new" class="ui large button right labeled icon green"><i class="right external icon"></i>Draft your contract on Clause.io </a>
         </div>
     </div>
     <div class="ui vertical secondary stripe segment">
@@ -46,6 +46,7 @@
                 Uh oh! Something went wrong.
                 </div>
                 <div class="description"></div>
+                <div class="footer">Please <a href="#welcomeback" (click)="reset(true)">reset</a> and try again</div>
             </div>
             <p [hidden]="step < 5">You're all set-up!</p>
             <a [hidden]="step < 5" href="#submit" class="page-scroll"><div class="ui big primary right labeled icon button">Continue<i class="caret down icon"></i></div></a>        
@@ -156,19 +157,33 @@
     </div>
     <div class="ui vertical secondary segment">
         <div class="ui container">
-            <h2 class="ui header">Blockchain Transactions</h2>
+            <h2 class="ui header">Audit Log</h2>
             <div  class="ui six cards doubling ">
-                <div *ngFor="let block of service.data.historian; let i = index;" [attr.data-index]="i" class="ui blue card">
+                <div *ngIf="service.data.historian.length === 0" class="ui card black">
                     <div class="content">
+                        <div class="description">Currently Empty</div>
+                    </div>
+                </div>
+                <div *ngFor="let block of service.data.historian; let i = index;" [attr.data-index]="i" class="ui blue card" [ngClass]="{'dark': block.transactionType === 'Clause Triggered'}">
+                    <div *ngIf="block.transactionType !== 'Clause Triggered'" class="content">
                         <div class="right floated meta"><i class="linkify icon"></i>{{i+1}}</div>
-                        <div class="">{{extractTypeFromFQType(block.transactionType)}}</div>
+                        <div class="description">{{extractTypeFromFQType(block.transactionType)}}</div>
+                        <div class="meta">
+                            <span>{{fromNow(block.transactionTimestamp)}}</span>
+                        </div>
+                    </div>
+                    <div *ngIf="block.transactionType === 'Clause Triggered'" class="content">
+                        <div class="description">Payment Calculated</div>
                         <div class="meta">
                             <span>{{fromNow(block.transactionTimestamp)}}</span>
                         </div>
                     </div>
                     <div class="extra content">
-                        <div class="right hash">
+                        <div *ngIf="block.transactionType !== 'Clause Triggered'" class="right hash">
                             {{block.transactionId}}
+                        </div>
+                        <div *ngIf="block.transactionType === 'Clause Triggered'">
+                            <div class="image"><img src="assets/images/logo.png"  width="75"/></div>
                         </div>
                     </div>
                 </div>

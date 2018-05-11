@@ -173,6 +173,13 @@ export class ComposerPerishableGoodsService {
 
         this.data.historian = (<Array<any>>data).sort(compare);
         this.data.historian.splice(0, this.blockHeight);
+        const lastBlock = (<Array<any>>data).slice(-1).pop();
+        if (lastBlock.transactionType === 'org.accordproject.perishablegoods.ShipmentReceived') {
+          this.data.historian.push({
+            transactionType: 'Clause Triggered',
+            transactionTimestamp: lastBlock.transactionTimestamp
+          });
+        }
       },
       err => {
         this.handleError(err);

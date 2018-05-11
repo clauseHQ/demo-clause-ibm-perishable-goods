@@ -13,3 +13,37 @@
     height:57px;
 }
 
+.ui.dark.cards > .dark.card, .ui.dark.card {
+    background: #2b2c2d;
+    box-shadow: 0px 1px 3px 0px #2b2c2d, 0px 0px 0px 1px #2b2c2d;
+}
+
+.ui.dark.card {
+    background: #2b2c2d;
+}
+
+.ui.dark.cards > .dark.card > .content > a.header, .ui.dark.card > .content > a.header {
+    color: white;
+}
+
+.ui.dark.cards > .dark.card > .content > .header, .ui.dark.card > .content > .header {
+    color: white;
+}
+  
+.ui.dark.cards > .dark.card > .content > .description, .ui.dark.card > .content > .description {
+    color: white;
+}
+
+.ui.dark.cards > .dark.card > .content > a.header:hover, .ui.dark.card > .content > a.header:hover {
+    color: white;
+}
+  
+.ui.dark.cards > .dark.card > .extra,
+.ui.dark.card > .extra {
+    border-top: 1px solid white !important;
+    color: inherit;
+}
+
+.ui.dark.card .meta, .ui.dark.cards>.card .meta {
+    color: white;
+}
