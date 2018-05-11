@@ -16,7 +16,7 @@ services:
     parameters:
       repo_name: 'demo-clause-ibm-perishable-goods'
       repo_url: 'https://github.com/clauseHQ/demo-clause-ibm-perishable-goods'
-      type: fork
+      type: clone
       has_issues: true
       enable_traceability: true
   build:
