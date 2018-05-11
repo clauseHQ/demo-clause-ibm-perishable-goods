@@ -26,6 +26,7 @@ services:
         - repo
       name: '{{services.repo.parameters.repo_name}}'
       ui-pipeline: true
+      sin: 'test'
       configuration:
         content:
           $text: pipeline.yml
