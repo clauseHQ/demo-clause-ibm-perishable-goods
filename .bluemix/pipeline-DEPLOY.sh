@@ -171,13 +171,12 @@ function deploy_composer_rest_server {
     BUSINESS_NETWORK_NAME=$(jq --raw-output '.name' package.json)
     BUSINESS_NETWORK_CARD=admin@${BUSINESS_NETWORK_NAME}
     CF_APP_NAME=composer-rest-server-${BUSINESS_NETWORK_NAME}
-    CF_HOST_NAME=client-${IDS_PROJECT_NAME}
     cf push \
         ${CF_APP_NAME} \
         --docker-image sstone1/composer-rest-server \
         -i 1 \
         -m 256M \
-        -n ${CF_HOST_NAME} \
+        --random-route \
         --no-start \
         --no-manifest
     cf set-env ${CF_APP_NAME} NODE_CONFIG "${NODE_CONFIG}"
@@ -212,11 +211,10 @@ function deploy_cf_app {
     APP=$1
     echo deploying cloud foundry app ${APP}
     pushd apps/${APP}
-    CF_HOST_NAME=client-${IDS_PROJECT_NAME}
     cf push ${APP} \
         -i 1 \
         -m 128M \
-        -n ${CF_HOST_NAME} \
+        --random-route \
         --no-start
     cf bind-service ${APP} ${BLOCKCHAIN_SERVICE_INSTANCE} -c '{"permissions":"read-only"}'
     popd
