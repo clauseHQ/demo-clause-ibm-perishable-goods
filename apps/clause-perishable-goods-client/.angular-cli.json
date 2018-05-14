@@ -21,12 +21,9 @@
       "styles": [
         "styles.css",
         "assets/css/demo.less",
-        "assets/css/range.css",
-        "../node_modules/semantic-ui/dist/semantic.min.css"
+        "assets/css/range.css"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.min.js",
-        "../node_modules/semantic-ui/dist/semantic.min.js",
         "../node_modules/jquery.easing/jquery.easing.min.js"
       ],
       "environmentSource": "environments/environment.ts",
