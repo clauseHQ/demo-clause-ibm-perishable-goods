@@ -1,7 +1,7 @@
 ---
 applications:
 - disk_quota: 1024M
-  name: clause-perishable-goods-client
+  name: clause-perishable-client
   command: "npm start"
   path: "."
   instances: 1
