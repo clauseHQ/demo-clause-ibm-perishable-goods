@@ -16,12 +16,10 @@
     "composer-common": "^0.19.5",
     "composer-connector-embedded": "^0.19.5",
     "csv-parse": "^2.4.0",
-    "eslint": "latest",
-    "excel-as-json": "^2.0.1",
     "istanbul": "latest",
-    "mkdirp": "latest",
     "mocha": "^5.1.1",
     "nock": "^9.2.5",
     "sinon": "^4.1.2"
-  }
+  },
+  "dependencies": {}
 }
