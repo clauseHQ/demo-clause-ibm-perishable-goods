@@ -53,6 +53,7 @@ describe('Perishable Shipping Network', async () => {
     let businessNetworkConnection;
     let factory;
     let clock;
+    let events = [];
 
     async function sleep(msec) {
         return new Promise(resolve => setTimeout(resolve, msec));
@@ -91,6 +92,11 @@ describe('Perishable Shipping Network', async () => {
         }).then(() => {
             businessNetworkConnection = new BusinessNetworkConnection({ cardStore: cardStore });
 
+            businessNetworkConnection.on('event', (event) => {
+                const txId = event.eventId.substring(0,36);
+                events.push(txId);
+            });
+
             return BusinessNetworkDefinition.fromDirectory(path.resolve(__dirname, '..'));
         }).then(definition => {
             businessNetworkDefinition = definition;
@@ -124,6 +130,7 @@ describe('Perishable Shipping Network', async () => {
 
     beforeEach(() => {
         clock = sinon.useFakeTimers();
+        events = [];
     });
 
     afterEach(function () {
@@ -181,6 +188,7 @@ describe('Perishable Shipping Network', async () => {
                 })
                 .then((shipment) => {
                     shipment.status.should.equal('ARRIVED');
+                    events.length.should.equal(2);
                 });
         });
 
@@ -442,4 +450,56 @@ describe('Perishable Shipping Network', async () => {
             });
         });
      });
+
+     it('should add a Grower', () => {
+        // create the grower
+        var grower = factory.newResource(namespace, 'Grower', 'farmer2@email.com');
+        var growerAddress = factory.newConcept(namespace, 'Address');
+        growerAddress.country = 'USA';
+        grower.address = growerAddress;
+        grower.accountBalance = 0;
+ 
+        // submit the sensor reading
+        const txGrower = factory.newTransaction(namespace, 'AddGrower');
+        txGrower.participant = grower;
+        return businessNetworkConnection.submitTransaction(txGrower)
+            .then(() => {
+                events.length.should.equal(1);
+            });
+    });
+
+    it('should add an Importer', () => {
+        // create the importer
+        var importer = factory.newResource(namespace, 'Importer', 'supermarket2@email.com');
+        var importerAddress = factory.newConcept(namespace, 'Address');
+        importerAddress.country = 'UK';
+        importer.address = importerAddress;
+        importer.accountBalance = 0;
+
+        // submit the sensor reading
+        const tx = factory.newTransaction(namespace, 'AddImporter');
+        tx.participant = importer;
+        return businessNetworkConnection.submitTransaction(tx)
+            .then(() => {
+                events.length.should.equal(1);
+            });
+    });
+
+    it('should add a Shipment', () => {
+
+        var shipment = factory.newResource(namespace, 'Shipment', 'SHIP_002');
+        shipment.smartClause = 'https://api.clause.io/api/clauses/aaaaaaaaaaaaaaaaaaaaaaaa/execute?access_token=TOKEN';
+        shipment.status = 'IN_TRANSIT';
+        shipment.grower = factory.newRelationship(namespace,'Grower', grower_id);
+        shipment.importer = factory.newRelationship(namespace,'Importer', importer_id);
+
+        // submit the sensor reading
+        const tx = factory.newTransaction(namespace, 'AddShipment');
+        tx.shipment = shipment;
+        return businessNetworkConnection.submitTransaction(tx)
+            .then(() => {
+                events.length.should.equal(1);
+            });
+    });
+
 });

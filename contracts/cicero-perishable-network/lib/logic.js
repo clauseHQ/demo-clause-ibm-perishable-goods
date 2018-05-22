@@ -55,7 +55,13 @@ function payOut(shipmentReceived) {
                 })
                 .then(function (shipmentRegistry) {
                     // update the state of the shipment
-                    return shipmentRegistry.update(shipment);
+                    const response = shipmentRegistry.update(shipment);
+
+                    var factory = getFactory();
+                    var basicEvent = factory.newEvent('org.accordproject.perishablegoods', 'TransactionCompletedEvent');
+                    emit(basicEvent);
+
+                    return response;
                 });
         });
 }
@@ -83,8 +89,94 @@ function sensorReading(sensorReading) {
     return getAssetRegistry('org.accordproject.perishablegoods.Shipment')
         .then(function (shipmentRegistry) {
             // add the sensor reading to the shipment
-            return shipmentRegistry.update(shipment);
+            const response = shipmentRegistry.update(shipment);
+
+            var factory = getFactory();
+            var basicEvent = factory.newEvent('org.accordproject.perishablegoods', 'TransactionCompletedEvent');
+            emit(basicEvent);
+            return response;
         });
+}
+
+/**
+ * @param {org.accordproject.perishablegoods.AddShipment} AddShipment - the AddShipment transaction
+ * @transaction
+ */
+function addShipment(tx){
+    // create the shipment
+    var factory = getFactory();
+    var NS = 'org.accordproject.perishablegoods';
+    const shipment = factory.newResource(NS, 'Shipment', tx.shipment.$identifier);
+    shipment.smartClause = tx.shipment.smartClause;
+    shipment.status = tx.shipment.status;
+    shipment.grower = factory.newRelationship(NS,'Grower', tx.shipment.grower.$identifier);
+    shipment.importer = factory.newRelationship(NS,'Importer', tx.shipment.importer.$identifier);
+
+    return getAssetRegistry(NS + '.Shipment')
+    .then(function (shipmentRegistry) {
+        // add the shipments
+        const response = shipmentRegistry.addAll([shipment]);
+
+        var factory = getFactory();
+        var basicEvent = factory.newEvent('org.accordproject.perishablegoods', 'TransactionCompletedEvent');
+        emit(basicEvent);
+
+        return response;
+    });
+}
+
+/**
+ * @param {org.accordproject.perishablegoods.AddImporter} AddImporter - the AddImporter transaction
+ * @transaction
+ */
+function addImporter(tx){
+    // create the grower
+    var factory = getFactory();
+    var NS = 'org.accordproject.perishablegoods';
+    var importer = factory.newResource(NS, 'Importer', tx.participant.$identifier);
+    var importerAddress = factory.newConcept(NS, 'Address');
+    importerAddress.country = 'USA';
+    importer.address = importerAddress;
+    importer.accountBalance = tx.participant.accountBalance;
+
+    return getParticipantRegistry(NS + '.Importer')
+    .then(function (importerRegistry) {
+        // add the growers
+        const response = importerRegistry.addAll([importer]);
+
+        var factory = getFactory();
+        var basicEvent = factory.newEvent('org.accordproject.perishablegoods', 'TransactionCompletedEvent');
+        emit(basicEvent);
+
+        return response;
+    })
+}
+
+/**
+ * @param {org.accordproject.perishablegoods.AddGrower} AddGrower - the AddGrower transaction
+ * @transaction
+ */
+function addGrower(tx){
+    // create the grower
+    var factory = getFactory();
+    var NS = 'org.accordproject.perishablegoods';
+    var grower = factory.newResource(NS, 'Grower', tx.participant.$identifier);
+    var growerAddress = factory.newConcept(NS, 'Address');
+    growerAddress.country = 'USA';
+    grower.address = growerAddress;
+    grower.accountBalance = tx.participant.accountBalance;
+
+    return getParticipantRegistry(NS + '.Grower')
+    .then(function (growerRegistry) {
+        // add the growers
+        const response = growerRegistry.addAll([grower]);
+
+        var factory = getFactory();
+        var basicEvent = factory.newEvent('org.accordproject.perishablegoods', 'TransactionCompletedEvent');
+        emit(basicEvent);
+
+        return response;
+    })
 }
 
 /**

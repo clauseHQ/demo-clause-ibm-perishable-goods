@@ -1,9 +1,10 @@
 {
   "name": "cicero-perishable-network",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Track shipments and invoke a Cicero Smart Clause",
   "scripts": {
-    "test": "mocha --recursive --timeout 100000"
+    "test": "mocha --recursive --timeout 100000",
+    "package:bna": "cd dist && composer archive create -t dir -n ../ && cd ../"
   },
   "author": "Accord Project",
   "email": "dan@accordproject.io",

@@ -57,6 +57,18 @@ transaction ShipmentReceived extends ShipmentTransaction {
     o Integer unitCount
 }
 
+transaction AddGrower {
+  o Grower participant
+}
+
+transaction AddImporter {
+  o Importer participant
+}
+
+transaction AddShipment {
+  o Shipment shipment
+}
+
 /**
  * The calculation of a price
  */
@@ -122,4 +134,7 @@ participant Importer extends Business {
  * JUST FOR INITIALIZING A DEMO
  */
 transaction SetupDemo {
+}
+
+event TransactionCompletedEvent {
 }
