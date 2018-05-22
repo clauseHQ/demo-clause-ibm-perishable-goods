@@ -170,7 +170,7 @@ function deploy_composer_rest_server {
     pushd contracts/${CONTRACT}
     BUSINESS_NETWORK_NAME=$(jq --raw-output '.name' package.json)
     BUSINESS_NETWORK_CARD=admin@${BUSINESS_NETWORK_NAME}
-    CF_APP_NAME=composer-rest-server-${BUSINESS_NETWORK_NAME}
+    CF_APP_NAME=rest-${BUSINESS_NETWORK_NAME}
     cf push \
         ${CF_APP_NAME} \
         --docker-image sstone1/composer-rest-server \
