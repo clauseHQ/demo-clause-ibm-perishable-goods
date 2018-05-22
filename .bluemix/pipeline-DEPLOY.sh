@@ -250,7 +250,7 @@ function gather_composer_rest_server_url {
     echo gathering rest server url for composer contract ${CONTRACT}
     pushd contracts/${CONTRACT}
     BUSINESS_NETWORK_NAME=$(jq --raw-output '.name' package.json)
-    CF_APP_NAME=composer-rest-server-${BUSINESS_NETWORK_NAME}
+    CF_APP_NAME=rest-${BUSINESS_NETWORK_NAME}
     REST_SERVER_URL=$(cf app ${CF_APP_NAME} | grep routes: | awk '{print $2}')
     export REST_SERVER_URLS=$(echo ${REST_SERVER_URLS} | jq ". + {\"${BUSINESS_NETWORK_NAME}\":\"https://${REST_SERVER_URL}\"}")
     popd
@@ -318,7 +318,7 @@ function start_composer_rest_server {
     echo starting rest server for composer contract ${CONTRACT}
     pushd contracts/${CONTRACT}
     BUSINESS_NETWORK_NAME=$(jq --raw-output '.name' package.json)
-    CF_APP_NAME=composer-rest-server-${BUSINESS_NETWORK_NAME}
+    CF_APP_NAME=rest-${BUSINESS_NETWORK_NAME}
     cf start ${CF_APP_NAME}
     popd
 }
