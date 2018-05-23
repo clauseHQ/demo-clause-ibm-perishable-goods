@@ -89,21 +89,25 @@ export class ComposerPerishableGoodsService {
     let participant;
     if (type === 'Importer') {
       participant = this.data.importer;
-    }
-    if (type === 'Grower') {
+    } else if (type === 'Grower') {
       participant = this.data.grower;
+    } else {
+      throw new Error('Invalid participant type');
     }
 
     const request = {
-      '$class': 'org.accordproject.perishablegoods.' + type,
-      'email': participant.email,
-      'address': {
-        country: 'gb'
-      },
-      'accountBalance': participant.accountBalance
+      '$class':  'org.accordproject.perishablegoods.Add' + type,
+      'participant': {
+        '$class': 'org.accordproject.perishablegoods.' + type,
+        'email': participant.email,
+        'address': {
+          country: 'gb'
+        },
+        'accountBalance': participant.accountBalance
+      }
     };
 
-    return this.http.post(this.API_HOST + '/' + type, request);
+    return this.http.post(this.API_HOST + '/Add' + type, request);
   }
 
   getParticipants() {
@@ -135,13 +139,16 @@ export class ComposerPerishableGoodsService {
     this.data.shipment.status = this.Status.CREATING_SHIPMENT;
     $('#shipment').removeClass('dimmed');
     // console.log(grower);
-    return this.http.post(this.API_HOST + '/Shipment', {
-        '$class': 'org.accordproject.perishablegoods.Shipment',
-        shipmentId: this.data.shipment.shipmentId,
-        'status': 'IN_TRANSIT',
-        'grower': 'resource:org.accordproject.perishablegoods.Grower#' + this.data.grower.email,
-        'importer': 'resource:org.accordproject.perishablegoods.Importer#' + this.data.importer.email,
-        smartClause: this.data.shipment.smartClause,
+    return this.http.post(this.API_HOST + '/AddShipment', {
+        '$class': 'org.accordproject.perishablegoods.AddShipment',
+        shipment: {
+          '$class': 'org.accordproject.perishablegoods.Shipment',
+          shipmentId: this.data.shipment.shipmentId,
+          'status': 'IN_TRANSIT',
+          'grower': 'resource:org.accordproject.perishablegoods.Grower#' + this.data.grower.email,
+          'importer': 'resource:org.accordproject.perishablegoods.Importer#' + this.data.importer.email,
+          smartClause: this.data.shipment.smartClause,
+        }
       }
     );
   }
@@ -160,21 +167,16 @@ export class ComposerPerishableGoodsService {
     return this.http.get(this.API_HOST + '/system/historian').subscribe(
       data => {
         function compare(a, b) {
-          if (a.transactionTimestamp < b.transactionTimestamp) {
-            return -1;
-          } else if (a.transactionTimestamp > b.transactionTimestamp) {
-            return 1;
-          }
-          return 0;
+          return new Date(a.transactionTimestamp).getTime() - new Date(b.transactionTimestamp).getTime();
         }
         if (this.blockHeight === -1) {
-          this.blockHeight = (<Array<any>>data).length;
+          this.blockHeight = (<Array<any>>data).length - 1;
         }
 
         this.data.historian = (<Array<any>>data).sort(compare);
         this.data.historian.splice(0, this.blockHeight);
         const lastBlock = (<Array<any>>data).slice(-1).pop();
-        if (lastBlock.transactionType === 'org.accordproject.perishablegoods.ShipmentReceived') {
+        if (lastBlock && lastBlock.transactionType === 'org.accordproject.perishablegoods.ShipmentReceived') {
           this.data.historian.push({
             transactionType: 'Clause Triggered',
             transactionTimestamp: lastBlock.transactionTimestamp

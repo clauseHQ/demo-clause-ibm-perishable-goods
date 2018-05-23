@@ -3,6 +3,7 @@ import { ComposerPerishableGoodsService } from './composer.service';
 import {Observable} from 'rxjs/Observable';
 import * as moment from 'moment';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import {EventCorrelationService} from './event-correlation.service';
 
 declare var $: any;
 
@@ -20,7 +21,7 @@ export class AppComponent implements OnInit {
 
   CLAUSE_API_REGEX = /https:\/\/api\.clause\.io\/api\/clauses\/([0-9a-z]{24})\/execute\?access_token=[0-9a-zA-Z]{64}/g;
 
-  constructor(public service: ComposerPerishableGoodsService, private http: HttpClient) {}
+  constructor(public service: ComposerPerishableGoodsService, private http: HttpClient, public events: EventCorrelationService) {}
 
   public reset(clearClauseURL = false) {
     this.step = 0;
@@ -35,7 +36,7 @@ export class AppComponent implements OnInit {
   }
 
   public validateClauseURL(event) {
-    console.log('validing URL');
+    console.log('validating URL');
 
     if (this.urlStatus === 'UNSET') {
       this.urlStatus = 'LOADING';
@@ -94,21 +95,24 @@ export class AppComponent implements OnInit {
       // Test connectivity to IBM Blockchain Platform
       this.step += 1;
       this.service.ping().subscribe(() => {
-        this.service.getHistorian();
 
         // Create the Grower
         this.step += 1;
-        this.service.addParticipant('Grower').subscribe((grower) => {
-          this.service.data.grower = grower;
-          this.service.getHistorian();
-
-          // Create the Importer
-          this.step += 1;
-          this.service.addParticipant('Importer').subscribe((importer) => {
-            this.service.data.importer = importer;
+        this.service.addParticipant('Grower').subscribe((grower: any) => {
+          this.events.transactionSent(grower.transactionId, () => {
+            this.service.data.grower = grower.participant;
             this.service.getHistorian();
             this.step += 1;
-          }, err => { this.service.handleError(err); this.step *= -1; });
+
+            // Create the Importer
+            this.service.addParticipant('Importer').subscribe((importer: any) => {
+              this.events.transactionSent(importer.transactionId, () => {
+                this.service.data.importer = importer.participant;
+                this.service.getHistorian();
+                this.step += 1;
+              });
+            }, err => { this.service.handleError(err); this.step *= -1; });
+          });
         }, err => { this.service.handleError(err); this.step *= -1; });
       }, err => { this.service.handleError(err); this.step *= -1; });
     }, err => { this.service.handleError(err); this.step *= -1; }
@@ -117,23 +121,26 @@ export class AppComponent implements OnInit {
 
 
   public addShipment() {
-    this.service.addShipment().subscribe((shipment) => {
-      this.service.data.shipment.status = this.service.Status.IN_TRANSIT;
-      this.service.getHistorian();
-
-      this.step = 6;
+    this.service.addShipment().subscribe((shipment: any) => {
+      this.events.transactionSent(shipment.transactionId, () => {
+        this.service.data.shipment.status = this.service.Status.IN_TRANSIT;
+        this.service.getHistorian();
+        this.step = 6;
+      });
     }, err => { this.service.handleError(err); this.step *= -1; });
   }
 
   public sendReceived() {
-    this.service.sendReceived().subscribe(data => {
-      this.service.data.shipment.status = this.service.Status.ARRIVED;
-      this.service.getParticipants();
-      this.service.getHistorian();
-      this.step = 8;
-      $('html, body').stop().animate({
-          scrollTop: ($('#complete').offset().top - 400)
-      }, 1250, 'easeInOutExpo');
+    this.service.sendReceived().subscribe((tx: any) => {
+      this.events.transactionSent(tx.transactionId, () => {
+        this.service.data.shipment.status = this.service.Status.ARRIVED;
+        this.service.getParticipants();
+        this.service.getHistorian();
+        this.step = 8;
+        $('html, body').stop().animate({
+            scrollTop: ($('#complete').offset().top - 400)
+        }, 1250, 'easeInOutExpo');
+      });
     }, err => this.service.handleError(err));
   }
 
@@ -144,9 +151,11 @@ export class AppComponent implements OnInit {
   }
 
   public addReading() {
-    this.service.sendSensorReading().subscribe(data => {
-      this.service.getHistorian();
-      this.readingCounter += 1;
+    this.service.sendSensorReading().subscribe((tx: any) => {
+      this.events.transactionSent(tx.transactionId, () => {
+        this.service.getHistorian();
+        this.readingCounter += 1;
+      });
     }, err => this.service.handleError(err));
   }
 
@@ -177,6 +186,24 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
+    // Make websocket connection
+    const WebSocket = window['WebSocket'] || window['MozWebSocket'];
+
+    const connection = new WebSocket('ws://rest-cicero-perishable-network-unsmouldering-delabialization.mybluemix.net');
+
+    connection.onopen = function () {
+      console.log('connected to websocket');
+    };
+
+    connection.onerror = function (error) {
+      console.error(error);
+    };
+
+    connection.onmessage = (message) => {
+        const json = JSON.parse(message.data);
+        this.events.eventReceived(json.eventId);
+    };
+
     $(document).ready(function() {
 
       // fix menu when passed
@@ -218,5 +245,6 @@ export class AppComponent implements OnInit {
 
     this.service.ping();
     $('#errorMessage').hide();
+
   }
 }

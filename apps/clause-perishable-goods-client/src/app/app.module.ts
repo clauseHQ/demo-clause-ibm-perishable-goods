@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { ComposerPerishableGoodsService } from './composer.service';
 import { FormsModule } from '@angular/forms';
+import { EventCorrelationService } from './event-correlation.service';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [ComposerPerishableGoodsService],
+  providers: [ComposerPerishableGoodsService, EventCorrelationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
