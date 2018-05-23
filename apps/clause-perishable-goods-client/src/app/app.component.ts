@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import * as moment from 'moment';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import {EventCorrelationService} from './event-correlation.service';
+import { environment } from '../environments/environment';
 
 declare var $: any;
 
@@ -189,7 +190,7 @@ export class AppComponent implements OnInit {
     // Make websocket connection
     const WebSocket = window['WebSocket'] || window['MozWebSocket'];
 
-    const connection = new WebSocket('ws://rest-cicero-perishable-network-unsmouldering-delabialization.mybluemix.net');
+    const connection = new WebSocket(`ws://${window.location.hostname}${environment.wsUrl}`);
 
     connection.onopen = function () {
       console.log('connected to websocket');
