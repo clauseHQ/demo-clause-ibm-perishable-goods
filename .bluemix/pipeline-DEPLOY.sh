@@ -173,7 +173,7 @@ function deploy_composer_rest_server {
     CF_APP_NAME=rest-${BUSINESS_NETWORK_NAME}
     cf push \
         ${CF_APP_NAME} \
-        --docker-image sstone1/composer-rest-server \
+        --docker-image ibmblockchain/composer-rest-server:${COMPOSER_VERSION} \
         -i 1 \
         -m 256M \
         --random-route \
@@ -211,11 +211,7 @@ function deploy_cf_app {
     APP=$1
     echo deploying cloud foundry app ${APP}
     pushd apps/${APP}
-    cf push ${APP} \
-        -i 1 \
-        -m 128M \
-        --random-route \
-        --no-start
+    cf push ${APP} -i 1 -m 128M --random-route --no-start
     cf bind-service ${APP} ${BLOCKCHAIN_SERVICE_INSTANCE} -c '{"permissions":"read-only"}'
     popd
 }
