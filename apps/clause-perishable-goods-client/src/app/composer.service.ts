@@ -7,9 +7,11 @@ declare var $: any;
 @Injectable()
 export class ComposerPerishableGoodsService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.API_HOST = `${window.location.protocol}//${window.location.host}${environment.apiUrl}`;
+  }
 
-  private API_HOST = `http://${window.location.host}${environment.apiUrl}`;
+  private API_HOST;
 
   public Status = {
     NOT_CREATED: 0,
