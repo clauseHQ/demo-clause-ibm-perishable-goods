@@ -190,7 +190,11 @@ export class AppComponent implements OnInit {
     // Make websocket connection
     const WebSocket = window['WebSocket'] || window['MozWebSocket'];
 
-    const connection = new WebSocket(`wss://${window.location.hostname}${environment.wsUrl}`);
+    let wsProtocol = 'wss:';
+    if (window.location.protocol === 'http:') {
+      wsProtocol = 'ws:';
+    }
+    const connection = new WebSocket(`${wsProtocol}//${window.location.host}${environment.wsUrl}`);
 
     connection.onopen = function () {
       console.log('connected to websocket');

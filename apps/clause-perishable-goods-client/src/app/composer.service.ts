@@ -9,7 +9,7 @@ export class ComposerPerishableGoodsService {
 
   constructor(private http: HttpClient) {}
 
-  private API_HOST = `http://${window.location.hostname}${environment.apiUrl}`;
+  private API_HOST = `http://${window.location.host}${environment.apiUrl}`;
 
   public Status = {
     NOT_CREATED: 0,

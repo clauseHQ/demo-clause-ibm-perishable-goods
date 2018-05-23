@@ -2,7 +2,11 @@ var express = require('express');
 var app = express();
 var helmet = require('helmet');
 var request = require('request');
+const WebSocket = require('ws');
+const http = require('http');
+
 require('dotenv').config();
+var server = http.createServer(app);
 
 // The number of milliseconds in one day
 var oneDay = 86400000;
@@ -23,4 +27,21 @@ app.use('/api', function(req, res) {
 // Serve up content from public directory
 app.use(express.static(__dirname + '/dist', { maxAge: oneDay }));
 
-app.listen(process.env.PORT || 3000);
+
+// WebSocket Server for the Client UI
+const wss = new WebSocket.Server({ server: server });
+
+// Send alive message
+wss.on('connection', function connection(ws) {
+  console.log('connected');
+
+  // WebSocket Client with the REST Server
+  const remote = new WebSocket('ws'+urls['cicero-perishable-network'].substring(5));
+  remote.on('message', function incoming(data) {
+    console.log(data);
+    ws.send(data);
+  });
+});
+
+server.listen(process.env.PORT || 3001);
+
