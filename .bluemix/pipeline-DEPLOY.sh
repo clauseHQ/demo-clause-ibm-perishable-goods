@@ -176,7 +176,6 @@ function deploy_composer_rest_server {
         --docker-image ibmblockchain/composer-rest-server:${COMPOSER_VERSION} \
         -i 1 \
         -m 256M \
-        --random-route \
         --no-start \
         --no-manifest
     cf set-env ${CF_APP_NAME} NODE_CONFIG "${NODE_CONFIG}"
@@ -211,7 +210,7 @@ function deploy_cf_app {
     APP=$1
     echo deploying cloud foundry app ${APP}
     pushd apps/${APP}
-    cf push ${APP} -i 1 -m 128M --random-route --no-start
+    cf push ${APP} -i 1 -m 128M --no-start
     cf bind-service ${APP} ${BLOCKCHAIN_SERVICE_INSTANCE} -c '{"permissions":"read-only"}'
     popd
 }
@@ -358,7 +357,6 @@ function start_docker_app {
 }
 
 install_nodejs
-install_jq
 if [[ "${HAS_COMPOSER_CONTRACTS}" = "true" ]]
 then
     install_composer

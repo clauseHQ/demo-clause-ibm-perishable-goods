@@ -3,18 +3,17 @@ template:
   name: "Clause Perishable Goods Demo"
   description: "The Delivery Pipeline automates the continuous deployment of the IBM Blockchain Starter Kit to IBM Cloud.\nDeployment of this toolchain should take about 10 minutes. While you are waiting you can get started with [setting up your Smart Legal Contract on Clause](https://hub.clause.io/open-signup?help=48)."
   required:
-    - build
     - repo
-    - deploy
+    - build
 
 toolchain:
-  name: 'clause-perishable-{{timestamp}}'
+  name: 'blockchain-starter-kit-{{timestamp}}'
 
 services:
   repo:
     service_id: githubpublic
     parameters:
-      repo_name: 'demo-clause-ibm-perishable-goods'
+      repo_name: '{{toolchain.name}}'
       repo_url: 'https://github.com/clauseHQ/demo-clause-ibm-perishable-goods'
       type: clone
       has_issues: true
@@ -35,11 +34,17 @@ services:
           SPACE_NAME: '{{form.pipeline.parameters.deploy-space}}'
           ORG_NAME: '{{form.pipeline.parameters.deploy-organization}}'
           REGION_ID: '{{form.pipeline.parameters.deploy-region}}'
+          BLOCKCHAIN_SERVICE_INSTANCE: '{{form.pipeline.parameters.blockchain-service-instance}}'
+          CLOUDANT_SERVICE_INSTANCE: '{{form.pipeline.parameters.cloudant-service-instance}}'
         execute: true
 
 form:
   pipeline:
-    parameters:
-      deploy-region: 'ibm:yp:us-south'
     schema:
       $ref: deploy.json
+    parameters:
+      deploy-region: '{{region}}'
+      deploy-organization: '{{organization}}'
+      deploy-space: '{{space}}'
+      blockchain-service-instance: '{{sin}}'
+      cloudant-service-instance: '{{toolchain.name}}'
