@@ -45,14 +45,15 @@ function deploy_composer_contract {
     BUSINESS_NETWORK_CARD=admin@${BUSINESS_NETWORK_NAME}
     for BUSINESS_NETWORK_ARCHIVE in ${BUSINESS_NETWORK_ARCHIVES}
     do
-        if ! OUTPUT=$(composer network install -c ${BLOCKCHAIN_NETWORK_CARD} -a ${BUSINESS_NETWORK_ARCHIVES} 2>&1)
-        then
+        while ! OUTPUT=$(composer network install -c ${BLOCKCHAIN_NETWORK_CARD} -a ${BUSINESS_NETWORK_ARCHIVES} 2>&1)
+        do
             if [[ "${OUTPUT}" != *"already installed"* ]]
             then
-                echo failed to install composer contract ${CONTRACT}
-                exit 1
+                sleep 30
+            else
+                break
             fi
-        fi
+        done
         while ! OUTPUT=$(composer network start -c ${BLOCKCHAIN_NETWORK_CARD} -n ${BUSINESS_NETWORK_NAME} -V ${BUSINESS_NETWORK_VERSION} -A ${BLOCKCHAIN_NETWORK_ENROLL_ID} -S ${BLOCKCHAIN_NETWORK_ENROLL_SECRET} -f adminCard.card 2>&1)
         do
             if [[ "${OUTPUT}" = *"REQUEST_TIMEOUT"* ]]
