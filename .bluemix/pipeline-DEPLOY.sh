@@ -175,6 +175,7 @@ function deploy_composer_rest_server {
     cf push \
         ${CF_APP_NAME} \
         --docker-image ibmblockchain/composer-rest-server:${COMPOSER_VERSION} \
+        --random-route \
         -i 1 \
         -m 256M \
         --no-start \
@@ -211,7 +212,7 @@ function deploy_cf_app {
     APP=$1
     echo deploying cloud foundry app ${APP}
     pushd apps/${APP}
-    cf push ${APP} -i 1 -m 128M --no-start
+    cf push ${APP} -i 1 -m 128M --no-start --random-route
     cf bind-service ${APP} ${BLOCKCHAIN_SERVICE_INSTANCE} -c '{"permissions":"read-only"}'
     popd
 }
