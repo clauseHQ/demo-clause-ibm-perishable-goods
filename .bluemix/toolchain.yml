@@ -46,5 +46,5 @@ form:
       deploy-region: '{{region}}'
       deploy-organization: '{{organization}}'
       deploy-space: '{{space}}'
-      blockchain-service-instance: 'blockchain-{{timestamp}}'
+      blockchain-service-instance: '{{sin}}'
       cloudant-service-instance: 'cloudant-{{timestamp}}'
