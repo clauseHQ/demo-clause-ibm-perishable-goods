@@ -14,13 +14,15 @@ The [Clause platform](https://clause.io) provides tooling to manage commercial c
 
 [![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://console.bluemix.net/devops/setup/deploy/?repository=https%3A//github.com/clauseHQ/demo-clause-ibm-perishable-goods&branch=master&env_id=ibm%3Ayp%3Aus-south&deploy-region=ibm%3Ayp%3Aus-south)
 
-2. In the `Delivery Pipeline` tab under `Tool Integrations`. Enter the service name of your Blockchain instance from your IBM Cloud dashboard, it will be something like `Blockchain-xy`.
+2. Authorize IBM Cloud to access your GitHub account. This sample will be forked into your account so you can modify it.
 
-2. Click `Create` to trigger the deployment, then click 'Delivery Pipeline' to monitor to progress. 
+3. In the `Delivery Pipeline` tab under `Tool Integrations`. Enter the service name of your Blockchain instance from your IBM Cloud dashboard, it will be something like `Blockchain-xy`.
 
-3. Wait for both the 'Build' and 'Deploy' stages to pass, this should take about 10 minutes. While you are waiting you can get started with [setting up your Smart Legal Contract on Clause](https://clause.elevio.help/en/articles/48).
+4. Click `Create` to trigger the deployment, then click 'Delivery Pipeline' to monitor to progress. 
 
-4. Click the Client App link under 'LAST EXECUTION RESULT' to view your demonstration app, it should look like the screenshot at the top of this page.
+5. Wait for both the 'Build' and 'Deploy' stages to pass, this should take about 10 minutes. While you are waiting you can get started with [setting up your Smart Legal Contract on Clause](https://clause.elevio.help/en/articles/48).
+
+6. Click the Client App link under 'LAST EXECUTION RESULT' to view your demonstration app, it should look like the screenshot at the top of this page.
 
 <img src="docs/pipeline.png" width="750">
 
