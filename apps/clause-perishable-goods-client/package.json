@@ -10,7 +10,7 @@
     "prepare": "npm run build",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "push": "npm run build && cd dist && bx cf push"
+    "push": "npm run build && bx cf push"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +25,7 @@
     "express": "^4.16.3",
     "helmet": "^3.12.0",
     "moment": "^2.22.1",
+    "reconnecting-websocket": "^4.0.0-rc5",
     "request": "^2.85.0",
     "rxjs": "^5.5.6",
     "ws": "^5.2.0",

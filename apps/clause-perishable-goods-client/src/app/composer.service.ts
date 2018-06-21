@@ -64,17 +64,22 @@ export class ComposerPerishableGoodsService {
       console.error('An error occurred:', error.error.message);
       $('#errorMessage > div.description').html(error.error.message);
       $('#errorMessage').show();
-    } else {
+    } else if (error.error && error.error.message && error.error.status) {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error.error.message}`);
+        `Backend returned code ${error.status}, body was: ${error.error.message}`);
 
       // tslint:disable-next-line:max-line-length
-      const message = error.error.error.message.replace('Error trying invoke business network. Error: No valid responses from any peers.\nResponse from attempted peer comms was an error: Error: 2 UNKNOWN: error executing chaincode: transaction returned with failure: Error:', '');
+      const message = error.error.message.replace('Error trying invoke business network. Error: No valid responses from any peers.\nResponse from attempted peer comms was an error: Error: 2 UNKNOWN: error executing chaincode: transaction returned with failure: Error:', '');
       $('#errorMessage > div.description').html(message);
       $('#errorMessage').show();
+    } else if (error.name === 'HttpErrorResponse') {
+      const message = 'Unable to connect to the server. Are you still online?';
+      $('#errorMessage > div.description').html(message);
+      $('#errorMessage').show();
+    } else {
+      console.error(error);
     }
   }
 

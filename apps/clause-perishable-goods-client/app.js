@@ -4,6 +4,7 @@ var helmet = require('helmet');
 var request = require('request');
 const WebSocket = require('ws');
 const http = require('http');
+const ReconnectingWebSocket = require('reconnecting-websocket');
 
 require('dotenv').config();
 var server = http.createServer(app);
@@ -33,14 +34,26 @@ const wss = new WebSocket.Server({ server: server });
 
 // Send alive message
 wss.on('connection', function connection(ws) {
-  console.log('connected');
+  console.log('client connected');
 
   // WebSocket Client with the REST Server
-  const remote = new WebSocket('ws'+urls['cicero-perishable-network'].substring(5));
-  remote.on('message', function incoming(data) {
-    console.log(data);
-    ws.send(data);
+  const options = {
+    WebSocket: WebSocket,
+    connectionTimeout: 2000,
+    maxRetries: 20,
+  };
+  const remote = new ReconnectingWebSocket('ws'+urls['cicero-perishable-network'].substring(5),[], options);
+  remote.addEventListener('message', (data) => {
+    console.log(data.data);
+    if(ws.readyState === 1){
+      ws.send(data.data);
+    }
   });
+
+  remote.addEventListener('error', (data) => {
+    console.log(data);
+  });
+
 });
 
 server.listen(process.env.PORT || 3001);

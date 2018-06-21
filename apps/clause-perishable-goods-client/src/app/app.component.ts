@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import {EventCorrelationService} from './event-correlation.service';
 import { environment } from '../environments/environment';
+import { ReconnectingWebSocket } from './WebSocketClient';
 
 declare var $: any;
 
@@ -187,14 +188,12 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
-    // Make websocket connection
-    const WebSocket = window['WebSocket'] || window['MozWebSocket'];
 
     let wsProtocol = 'wss:';
     if (window.location.protocol === 'http:') {
       wsProtocol = 'ws:';
     }
-    const connection = new WebSocket(`${wsProtocol}//${window.location.host}${environment.wsUrl}`);
+    const connection = new ReconnectingWebSocket(`${wsProtocol}//${window.location.host}${environment.wsUrl}`);
 
     connection.onopen = function () {
       console.log('connected to websocket');
@@ -206,6 +205,7 @@ export class AppComponent implements OnInit {
 
     connection.onmessage = (message) => {
         const json = JSON.parse(message.data);
+        console.log(json);
         this.events.eventReceived(json.eventId);
     };
 
