@@ -8,7 +8,7 @@ The [Clause platform](http://clause.io) manages digital legal contracts that adh
 
 This code pattern illustrates how a legal agreement (such as a shipping contract) can be automated with the use of trusted data from the IBM Blockchain Platform. In this scenario, the Hyperledger Composer business network (executing on Hyperledger Fabric v1) invokes the Clause platform. Hyperledger Fabric stores the state of assets on the blockchain, while the [Cicero engine](https://github.com/accordproject/cicero) (from the Accord Project) executes contract logic off-chain on the [Clause platform](http://clause.io). 
 
-The developer will creates a blockchain-based business network on the IBM Blockchain Platform that invoke Clause to execute Smart Legal Contracts. When the reader has completed this code pattern, they will understand how to:
+The developer creates a blockchain-based business network on the IBM Blockchain Platform that invoke Clause to execute Smart Legal Contracts. When the reader has completed this code pattern, they will understand how to:
 * Deploy a network to IBM Blockchain Starter Plan
 * Configure and use the Clause platform to build and execute a contract
 * Run an Angular application that utilizes the Clause smart contract
@@ -21,10 +21,9 @@ The developer will creates a blockchain-based business network on the IBM Blockc
 
 1. Application receives a shipment request
 2. A transaction is submitted to IBM Blockchain Platform
-3. The Hyperledger Composer based business network running on IBM Blockchain Platform updates the state of assets
-2. A call is issued to Clause to trigger execution of a smart legal contract
-3. The smart legal contract is executed and assuming verifications pass; then a payment is subsequently calculated
-4. Assets on the blockchain are updated: blocks are written to the network and the world state is updated
+3. A call is issued to Clause to trigger execution of a smart legal contract
+4. The smart legal contract is executed and assuming verifications pass; then a payment is subsequently calculated
+5. Assets on the blockchain are updated: blocks are written to the network and the world state is updated
 
 ## Included Components
 * [Hyperledger Composer v0.19.4](https://hyperledger.github.io/composer/latest/) Hyperledger Composer is an extensive, open development toolset and framework to make developing blockchain applications easier
