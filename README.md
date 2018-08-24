@@ -4,9 +4,9 @@
 
 Legal Contracts are the foundation of the exchange of value between humans.  As most things become digitized, so are contracts. Blockchain is transforming the exchange of assets to a model based on a business network using a distributed ledger.  This model requires that we establish governing rules for digital asset exchanges; hence the idea of smart contracts was born. The [Accord Project](https://accordproject.org/) is an open source software initiative that has established specifications, tooling and code for smart legal contracts.  
 
-The [Clause platform](https://clause.io) manages digital legal contracts that adhere to the [Accord Project open-source specifications](https://docs.accordproject.org) for [smart legal contracts](https://medium.com/@Clause/really-smart-and-legal-contracts-a77fcd1d0d10)
+The [Clause platform](http://clause.io) manages digital legal contracts that adhere to the [Accord Project open-source specifications](https://docs.accordproject.org) for [smart legal contracts](https://medium.com/@Clause/really-smart-and-legal-contracts-a77fcd1d0d10)
 
-This code pattern illustrates how a legal agreement (such as a shipping contract) can be automated with the use of trusted data from the IBM Blockchain Platform. In this scenario, the Hyperledger Composer business network (executing on Hyperledger Fabric v1) invokes the Clause platform. Hyperledger Fabric stores the state of assets on the blockchain, while the [Cicero engine](https://github.com/accordproject/cicero) (from the Accord Project) executes contract logic off-chain on the [Clause platform](https://clause.io). 
+This code pattern illustrates how a legal agreement (such as a shipping contract) can be automated with the use of trusted data from the IBM Blockchain Platform. In this scenario, the Hyperledger Composer business network (executing on Hyperledger Fabric v1) invokes the Clause platform. Hyperledger Fabric stores the state of assets on the blockchain, while the [Cicero engine](https://github.com/accordproject/cicero) (from the Accord Project) executes contract logic off-chain on the [Clause platform](http://clause.io). 
 
 The developer will creates a blockchain-based business network on the IBM Blockchain Platform that invoke Clause to execute Smart Legal Contracts. When the reader has completed this code pattern, they will understand how to:
 * Deploy a network to IBM Blockchain Starter Plan
@@ -30,7 +30,7 @@ The developer will creates a blockchain-based business network on the IBM Blockc
 * [Hyperledger Composer v0.19.4](https://hyperledger.github.io/composer/latest/) Hyperledger Composer is an extensive, open development toolset and framework to make developing blockchain applications easier
 * [Hyperledger Fabric v1.1](https://hyperledger-fabric.readthedocs.io) Hyperledger Fabric is a platform for distributed ledger solutions, underpinned by a modular architecture delivering high degrees of confidentiality, resiliency, flexibility and scalability.
 * [IBM Blockchain Starter Plan](https://console.bluemix.net/catalog/services/blockchain) The IBM Blockchain Platform Starter Plan allows to build and try out blockchain network in an environment designed for development and testing
-* [Clause](https://clause.io) The Clause platform manages and executions smart legal contracts, connecting them to existing event sources and systems
+* [Clause](http://clause.io) Clause edits and executes smart legal contracts, connecting them to existing event sources and systems
 
 ## Featured Technologies
 * [Clause](https://clause.io)
@@ -80,6 +80,8 @@ Click the Client App link under 'LAST EXECUTION RESULT' to view your demonstrati
 * **Blockchain Code Patterns**: Enjoyed this Code Pattern? Check out our other [Blockchain Code Patterns](https://developer.ibm.com/code/technologies/blockchain/)
 
 * **Blockchain 101**: Learn why IBM believes that blockchain can transform businesses, industries – and even the world. [Blockchain 101](https://developer.ibm.com/code/technologies/blockchain/)
+
+* **How to integrate Clause with Blockchain**: Learn about the 4 ways you can integrate Smart Legal Contracts from Clause with Blockchain. [Integrate Clause with Blockchain](https://clause.elevio.help/en/articles/11)
 
 # License
 [Apache 2.0](LICENSE)
