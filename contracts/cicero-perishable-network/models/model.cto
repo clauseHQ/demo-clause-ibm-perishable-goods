@@ -6,6 +6,8 @@
   */
 namespace org.accordproject.perishablegoods
 
+import org.accordproject.money.MonetaryAmount
+
 /**
  * The status of a shipment
  */
@@ -73,8 +75,8 @@ transaction AddShipment {
  * The calculation of a price
  */
 transaction PriceCalculation extends ShipmentTransaction {
-  o Double totalPrice
-  o Double penalty
+  o MonetaryAmount totalPrice
+  o MonetaryAmount penalty
   o Boolean late
 }
 
@@ -91,6 +93,7 @@ asset Shipment identified by shipmentId {
    * the link to the smart clause for this shipment
    */
   o String smartClause
+  o String smartClauseKey
 }
 
 /**

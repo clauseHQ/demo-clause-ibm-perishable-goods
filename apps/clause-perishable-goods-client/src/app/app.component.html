@@ -15,6 +15,10 @@
                 <input type="text" placeholder="Your execution URL from Clause"  [(ngModel)]="service.data.shipment.smartClause" (ngModelChange)="validateClauseURL($event)">
                 <i class="icon" [ngClass]="{'green': urlStatus === 'VALID', 'check': urlStatus === 'VALID'}"></i>
             </div>
+            <div class="ui fluid icon input" [ngClass]="{'error': urlStatus === 'INVALID', 'loading': urlStatus === 'LOADING','disabled': urlStatus === 'VALID'}">
+                <input type="text" placeholder="Your API KEY from Clause"  [(ngModel)]="service.data.shipment.smartClauseKey" (ngModelChange)="validateClauseURL($event)">
+                <i class="icon" [ngClass]="{'green': urlStatus === 'VALID', 'check': urlStatus === 'VALID'}"></i>
+            </div>
             <div class="ui error message" [hidden]="urlStatus !== 'INVALID'">
                 <i class="close icon"></i>
                 <div class="header">
@@ -40,7 +44,7 @@
                     <div class="content"><div class="description">Importer invited to the Blockchain network</div></div>
                 </a>
             </div>
-            <div class="ui error message" id="errorMessage">
+            <div class="ui error message" id="errorMessage" hidden="true">
                 <i class="close icon"></i>
                 <div class="header">
                 Uh oh! Something went wrong.

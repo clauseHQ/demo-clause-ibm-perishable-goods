@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ComposerPerishableGoodsService } from './composer.service';
-import {Observable} from 'rxjs/Observable';
 import * as moment from 'moment';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {EventCorrelationService} from './event-correlation.service';
 import { environment } from '../environments/environment';
 import { ReconnectingWebSocket } from './WebSocketClient';
 
 declare var $: any;
+
+const isEmpty = function(str) {
+  return (!str || 0 === str.length);
+};
 
 @Component({
   selector: 'app-root',
@@ -21,7 +24,8 @@ export class AppComponent implements OnInit {
   step = 0;
   readingCounter = 0;
 
-  CLAUSE_API_REGEX = /https:\/\/api\.clause\.io\/api\/clauses\/([0-9a-z]{24})\/execute\?access_token=[0-9a-zA-Z]{64}/g;
+  CLAUSE_API_REGEX = /^https:\/\/api\.clause\.io\/clauses\/([0-9a-z]{24})\/trigger$/;
+  CLAUSE_API_KEY_REGEX = /^[0-9a-zA-Z]{64}$/;
 
   constructor(public service: ComposerPerishableGoodsService, private http: HttpClient, public events: EventCorrelationService) {}
 
@@ -38,17 +42,28 @@ export class AppComponent implements OnInit {
   }
 
   public validateClauseURL(event) {
-    console.log('validating URL');
+    if (isEmpty(this.service.data.shipment.smartClause)
+    || isEmpty(this.service.data.shipment.smartClauseKey)) {
+      return;
+    }
 
     if (this.urlStatus === 'UNSET') {
+      console.log('validating URL');
       this.urlStatus = 'LOADING';
       $('#errorMessage').hide();
 
       // Trim any extra whitespace
       this.service.data.shipment.smartClause = this.service.data.shipment.smartClause.trim();
+      this.service.data.shipment.smartClauseKey = this.service.data.shipment.smartClauseKey.trim();
 
       // Does it match the regex pattern?
       if (this.CLAUSE_API_REGEX.exec(this.service.data.shipment.smartClause) === null) {
+        console.log('url');
+        this.urlStatus = 'INVALID';
+        return;
+      }
+      if (this.CLAUSE_API_KEY_REGEX.exec(this.service.data.shipment.smartClauseKey) === null) {
+        console.log('api');
         this.urlStatus = 'INVALID';
         return;
       }
@@ -85,12 +100,17 @@ export class AppComponent implements OnInit {
                   'transactionId': 'c'
               }
           ]
-      },
-      'transactionId': '99c64b8a-b3b0-408a-8ec4-7820776cd447',
-      'timestamp': '2018-02-18T11:11:41.264Z'
+      }
     };
 
-    this.http.post(this.service.data.shipment.smartClause, request)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Bearer ' + this.service.data.shipment.smartClauseKey,
+      })
+    };
+
+    this.http.post(this.service.data.shipment.smartClause, request, httpOptions)
     .subscribe(() => {
       this.urlStatus = 'VALID';
 
