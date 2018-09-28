@@ -159,9 +159,9 @@ export class AppComponent implements OnInit {
         this.service.getParticipants();
         this.service.getHistorian();
         this.step = 8;
-        $('html, body').stop().animate({
-            scrollTop: ($('#complete').offset().top - 400)
-        }, 1250, 'easeInOutExpo');
+        // $('html, body').stop().animate({
+        //     scrollTop: ($('#complete').offset().top - 400)
+        // }, 1250, 'easeInOutExpo');
       });
     }, err => this.service.handleError(err));
   }
