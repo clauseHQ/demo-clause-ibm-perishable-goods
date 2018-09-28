@@ -21,16 +21,30 @@
 function payOut(shipmentReceived) {
 
     var shipment = shipmentReceived.shipment;
-    //console.log('received: ' + JSON.stringify(getSerializer().toJSON(shipmentReceived, {permitResourcesForRelationships: true})));
+    // console.log('received: ' + JSON.stringify(getSerializer().toJSON(shipmentReceived, {permitResourcesForRelationships: true})));
+    var json = getSerializer().toJSON(shipmentReceived, {permitResourcesForRelationships: true});
+    
+    var token = shipment.smartClauseKey;
 
+    // The Clause template doesn't include these fields
+    delete json.shipment.smartClauseKey;
+    delete json.shipment.grower;
+    delete json.shipment.importer;
+    
     // set the status of the shipment
     shipment.status = 'ARRIVED';
 
     // execute the smart clause
     console.log(shipment.smartClause);
-    return post( shipment.smartClause , shipmentReceived, {permitResourcesForRelationships: true})
+    return request.post({ 
+        uri: shipment.smartClause, 
+        json: json,
+        headers: {
+            Authorization: 'Bearer ' + token,
+        },
+    })
         .then(function (result) {
-            var totalPrice = result.body.totalPrice;
+            var totalPrice = result.totalPrice.doubleValue;
             console.log('Payout: ' + totalPrice);
             shipment.grower.accountBalance += totalPrice;
             shipment.importer.accountBalance -= totalPrice;
@@ -108,6 +122,7 @@ function addShipment(tx){
     var NS = 'org.accordproject.perishablegoods';
     const shipment = factory.newResource(NS, 'Shipment', tx.shipment.$identifier);
     shipment.smartClause = tx.shipment.smartClause;
+    shipment.smartClauseKey = tx.shipment.smartClauseKey;
     shipment.status = tx.shipment.status;
     shipment.grower = factory.newRelationship(NS,'Grower', tx.shipment.grower.$identifier);
     shipment.importer = factory.newRelationship(NS,'Importer', tx.shipment.importer.$identifier);
@@ -212,7 +227,8 @@ function setupDemo(setupDemo) {
 
     // create the shipment
     var shipment = factory.newResource(NS, 'Shipment', 'SHIP_001');
-    shipment.smartClause = 'https://api.clause.io/api/clauses/aaaaaaaaaaaaaaaaaaaaaaaa/execute?access_token=TOKEN';
+    shipment.smartClause = 'https://api.clause.io/clauses/aaaaaaaaaaaaaaaaaaaaaaaa/trigger';
+    shipment.smartClauseKey = 'TOKEN'
     shipment.status = 'IN_TRANSIT';
     shipment.grower = factory.newRelationship(NS,'Grower', grower.$identifier);
     shipment.importer = factory.newRelationship(NS,'Importer', importer.$identifier);

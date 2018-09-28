@@ -26,6 +26,7 @@ export class ComposerPerishableGoodsService {
     shipment: {
       shipmentId: this.generateId(),
       smartClause: '',
+      smartClauseKey: '',
       status: this.Status.NOT_CREATED,
       sensorReadings: [],
       currentTemp: 2,
@@ -155,6 +156,7 @@ export class ComposerPerishableGoodsService {
           'grower': 'resource:org.accordproject.perishablegoods.Grower#' + this.data.grower.email,
           'importer': 'resource:org.accordproject.perishablegoods.Importer#' + this.data.importer.email,
           smartClause: this.data.shipment.smartClause,
+          smartClauseKey: this.data.shipment.smartClauseKey,
         }
       }
     );
