@@ -15,7 +15,7 @@
     "composer-admin": "0.19.5",
     "composer-client": "0.19.5",
     "composer-common": "0.19.5",
-    "composer-connector-embedded": "0.19.5",
+    "composer-connector-embedded": "^0.19.5",
     "csv-parse": "^2.4.0",
     "istanbul": "latest",
     "mocha": "^5.1.1",
