@@ -44,7 +44,6 @@ function payOut(shipmentReceived) {
         },
     })
         .then(function (result) {
-            console.log(JSON.stringify(result));
             var totalPrice = result.totalPrice.doubleValue;
             console.log('Payout: ' + totalPrice);
             shipment.grower.accountBalance += totalPrice;
