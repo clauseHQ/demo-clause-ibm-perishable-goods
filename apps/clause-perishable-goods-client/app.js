@@ -42,7 +42,7 @@ wss.on('connection', function connection(ws) {
     connectionTimeout: 2000,
     maxRetries: 20,
   };
-  const remote = new ReconnectingWebSocket('ws'+urls['cicero-perishable-network'].substring(5),[], options);
+  const remote = new ReconnectingWebSocket('ws'+urls['cicero-perishable-network'].substring(4),[], options);
   remote.addEventListener('message', (data) => {
     console.log(data.data);
     if(ws.readyState === 1){
