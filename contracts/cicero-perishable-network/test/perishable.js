@@ -33,17 +33,19 @@ let importer_id = 'supermarket@email.com';
 
 let clauseResponse = {
     "$class":"org.accordproject.perishablegoods.PriceCalculation",
-    "totalPrice":4500,
-    "penalty":500,
+    "totalPrice":{
+        "$class":"org.accordproject.money.MonetaryAmount",
+        doubleValue: 4500.0,
+        currencyCode: "USD"
+    },
+    "penalty":{
+        "$class":"org.accordproject.money.MonetaryAmount",
+        doubleValue: 500.0,
+        currencyCode: "USD"
+    },
     "late":false,
     "shipment":"resource:org.accordproject.perishablegoods.Shipment#SHIP_001"
 }
-
-function delay(t, v) {
-    return new Promise(function(resolve) { 
-        setTimeout(resolve.bind(null, v), t)
-    });
- }
 
 describe('Perishable Shipping Network', async () => {
     // In-memory card store for testing so cards are not persisted to the file system
@@ -54,10 +56,6 @@ describe('Perishable Shipping Network', async () => {
     let factory;
     let clock;
     let events = [];
-
-    async function sleep(msec) {
-        return new Promise(resolve => setTimeout(resolve, msec));
-    }
 
     before(() => {
         // Embedded connection used for local testing
@@ -142,7 +140,7 @@ describe('Perishable Shipping Network', async () => {
         it('should receive base price for a shipment within temperature range', () => {
 
             nock('https://api.clause.io:443')
-            .post(/api\/clauses\/[a-z0-9]{24}\/execute/)
+            .post(/clauses\/[a-z0-9]{24}\/trigger/)
             .reply(200, clauseResponse);
 
             // submit the sensor reading
@@ -196,7 +194,7 @@ describe('Perishable Shipping Network', async () => {
 
             clauseResponse.penalty = 6600;
             nock('https://api.clause.io:443')
-            .post(/api\/clauses\/[a-z0-9]{24}\/execute/)
+            .post(/clauses\/[a-z0-9]{24}\/trigger/)
             .reply(200, clauseResponse);
 
             // submit the temperature reading
@@ -242,7 +240,7 @@ describe('Perishable Shipping Network', async () => {
 
             clauseResponse.penalty = 9900;
             nock('https://api.clause.io:443')
-            .post(/api\/clauses\/[a-z0-9]{24}\/execute/)
+            .post(/clauses\/[a-z0-9]{24}\/trigger/)
             .reply(200, clauseResponse);
 
             // submit the temperature reading
@@ -286,7 +284,7 @@ describe('Perishable Shipping Network', async () => {
 
             clauseResponse.penalty = 13200;
             nock('https://api.clause.io:443')
-            .post(/api\/clauses\/[a-z0-9]{24}\/execute/)
+            .post(/clauses\/[a-z0-9]{24}\/trigger/)
             .reply(200, clauseResponse);
 
             // submit the temperature reading
@@ -327,11 +325,19 @@ describe('Perishable Shipping Network', async () => {
 
         it('should replay real data', () => {
 
-            clauseResponse.totalPrice = 0;
-            clauseResponse.penalty = 21060;
+            clauseResponse.totalPrice = {
+                "$class":"org.accordproject.money.MonetaryAmount",
+                doubleValue: 0.0,
+                currencyCode: "USD"
+            };
+            clauseResponse.penalty = {
+                "$class":"org.accordproject.money.MonetaryAmount",
+                doubleValue: 21060.0,
+                currencyCode: "USD"
+            };
             clauseResponse.late = false;
             nock('https://api.clause.io:443')
-            .post(/api\/clauses\/[a-z0-9]{24}\/execute/)
+            .post(/clauses\/[a-z0-9]{24}\/trigger/)
             .reply(200, clauseResponse);
 
             // submit the temperature reading
@@ -488,7 +494,8 @@ describe('Perishable Shipping Network', async () => {
     it('should add a Shipment', () => {
 
         var shipment = factory.newResource(namespace, 'Shipment', 'SHIP_002');
-        shipment.smartClause = 'https://api.clause.io/api/clauses/aaaaaaaaaaaaaaaaaaaaaaaa/execute?access_token=TOKEN';
+        shipment.smartClause = 'https://api.clause.io/clauses/aaaaaaaaaaaaaaaaaaaaaaaa/trigger';
+        shipment.smartClauseKey = 'bbbbbbbbbbbbbbbbbb';
         shipment.status = 'IN_TRANSIT';
         shipment.grower = factory.newRelationship(namespace,'Grower', grower_id);
         shipment.importer = factory.newRelationship(namespace,'Importer', importer_id);
