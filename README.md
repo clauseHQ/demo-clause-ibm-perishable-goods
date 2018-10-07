@@ -51,9 +51,11 @@ A. Click the link below to automate the provision of a service on IBM Cloud and 
 
 B. Authorize IBM Cloud to access your GitHub account. This sample will be forked into your account so you can modify it.
 
-C. In the `Delivery Pipeline` tab under `Tool Integrations`. Enter the service name of your Blockchain instance from your IBM Cloud dashboard, it will be something like `Blockchain-xy`.
+C. In the `Delivery Pipeline` tab under `Tool Integrations`. Enter your IBM Cloud API Key. If you don't have a key you can create one. Enter the service name of your Blockchain instance from your IBM Cloud dashboard, it will be something like `Blockchain-xy`.
 
 D. Click `Create` to trigger the deployment, then click 'Delivery Pipeline' to monitor to progress. Wait for both the 'Build' and 'Deploy' stages to pass, this should take about 10 minutes.
+
+> Note that if deploy fails you should check the logs. If you have an existing Cloudant Lite plan instance the deploy will fail, as each IBM Cloud account is limited to a single Cloudant Lite plan database instance. You must upgrade your existing Cloudant instance to a paid plan or remove it.
 
 ## Step 2. Setup Smart Legal Contract
 
