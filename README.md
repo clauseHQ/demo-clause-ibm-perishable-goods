@@ -26,8 +26,8 @@ The developer creates a blockchain-based business network on the IBM Blockchain 
 5. Assets on the blockchain are updated: blocks are written to the network and the world state is updated
 
 ## Included Components
-* [Hyperledger Composer v0.19.4](https://hyperledger.github.io/composer/latest/) Hyperledger Composer is an extensive, open development toolset and framework to make developing blockchain applications easier
-* [Hyperledger Fabric v1.1](https://hyperledger-fabric.readthedocs.io) Hyperledger Fabric is a platform for distributed ledger solutions, underpinned by a modular architecture delivering high degrees of confidentiality, resiliency, flexibility and scalability.
+* [Hyperledger Composer v0.20.x](https://hyperledger.github.io/composer/latest/) Hyperledger Composer is an extensive, open development toolset and framework to make developing blockchain applications easier
+* [Hyperledger Fabric v1.2.1](https://hyperledger-fabric.readthedocs.io) Hyperledger Fabric is a platform for distributed ledger solutions, underpinned by a modular architecture delivering high degrees of confidentiality, resiliency, flexibility and scalability.
 * [IBM Blockchain Starter Plan](https://console.bluemix.net/catalog/services/blockchain) The IBM Blockchain Platform Starter Plan allows to build and try out blockchain network in an environment designed for development and testing
 * [Clause](http://clause.io) Clause edits and executes smart legal contracts, connecting them to existing event sources and systems
 
@@ -39,9 +39,12 @@ The developer creates a blockchain-based business network on the IBM Blockchain 
 1. If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
 
 ## Steps
-1. [Deploy to IBM Cloud](#1-deploy-to-ibmcloud)
-2. [Setup Smart Legal Contract](#2-setup-smart-legal-contract)
-3. [Running the Client Application](#3-running-the-client-application)
+1. [Provision IBM Blockchain Starter Plan](#1-provision-ibm-blockchain-starter-plan)
+2. [Deploy to IBM Cloud](#2-deploy-to-ibmcloud)
+3. [Setup Smart Legal Contract](#3-setup-smart-legal-contract)
+4. [Running the Client Application](#4-running-the-client-application)
+
+## Step 1. Provision IBM Blockchain Starter Plan
 
 ## Step 1. Deploy to IBM Cloud
 
