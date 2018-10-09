@@ -46,7 +46,7 @@ The developer creates a blockchain-based business network on the IBM Blockchain 
 
 ## Step 1. Provision IBM Blockchain Starter Plan
 
-## Step 1. Deploy to IBM Cloud
+## Step 2. Deploy to IBM Cloud
 
 A. Click the link below to automate the provision of a service on IBM Cloud and to deploy the contract and app contained in this repository.
 
@@ -60,12 +60,12 @@ D. Click `Create` to trigger the deployment, then click 'Delivery Pipeline' to m
 
 > Note that if deploy fails you should check the logs. If you have an existing Cloudant Lite plan instance the deploy will fail, as each IBM Cloud account is limited to a single Cloudant Lite plan database instance. You must upgrade your existing Cloudant instance to a paid plan or remove it.
 
-## Step 2. Setup Smart Legal Contract
+## Step 3. Setup Smart Legal Contract
 
 While you are waiting you can get started with [setting up your Smart Legal Contract on Clause](https://clause.elevio.help/en/articles/48). In that link, begin with Step 3.
 
 
-## Step 3. Running the Client Application
+## Step 4. Running the Client Application
 
 You can read more about the Client Application [here](https://github.com/clauseHQ/demo-clause-ibm-perishable-goods/blob/master/apps/clause-perishable-goods-client/README.md).
 

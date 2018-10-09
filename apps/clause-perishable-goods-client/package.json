@@ -9,7 +9,7 @@
     "ng": "ng",
     "dev": "ng serve",
     "start": "node app.js",
-    "build": "ng build",
+    "build": "ng build  --configuration=production",
     "prepare": "npm run build",
     "lint": "ng lint",
     "e2e": "ng e2e",
