@@ -88,6 +88,9 @@ Click the Client App link under 'LAST EXECUTION RESULT' to view your demonstrati
 * **How to integrate Clause with Blockchain**: Learn about the 4 ways you can integrate Smart Legal Contracts from Clause with Blockchain. [Integrate Clause with Blockchain](https://clause.elevio.help/en/articles/11)
 
 # License
-[Apache 2.0](LICENSE)
+This code pattern is licensed under the Apache Software License, Version 2. Separate third party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the Developer [Certificate of Origin, Version 1.1 (“DCO”)] (https://developercertificate.org/) and the [Apache Software License, Version 2]( (http://www.apache.org/licenses/LICENSE-2.0.txt).
+
+ASL FAQ link: http://www.apache.org/foundation/license-faq.html#WhatDoesItMEAN
+
 
 &copy; Copyright 2018, Clause Inc.
