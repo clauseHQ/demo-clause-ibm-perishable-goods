@@ -56,7 +56,7 @@ B. Authorize IBM Cloud to access your GitHub account. This sample will be forked
 
 C. In the `Delivery Pipeline` tab under `Tool Integrations`. Enter your IBM Cloud API Key. If you don't have a key you can create one. Enter the service name of your Blockchain instance from your IBM Cloud dashboard, it will be something like `Blockchain-xy`.
 
-D. Click `Create` to trigger the deployment, then click 'Delivery Pipeline' to monitor to progress. Wait for both the 'Build' and 'Deploy' stages to pass, this should take about 10 minutes.
+D. Click `Create` to trigger the deployment, then click `Delivery Pipeline` to monitor to progress. Wait for both the `Build` and `Deploy` stages to pass, this should take about 10 minutes.
 
 > Note that if deploy fails you should check the logs. If you have an existing Cloudant Lite plan instance the deploy will fail, as each IBM Cloud account is limited to a single Cloudant Lite plan database instance. You must upgrade your existing Cloudant instance to a paid plan or remove it.
 
@@ -69,7 +69,7 @@ While you are waiting you can get started with [setting up your Smart Legal Cont
 
 You can read more about the Client Application [here](https://github.com/clauseHQ/demo-clause-ibm-perishable-goods/blob/master/apps/clause-perishable-goods-client/README.md).
 
-Click the Client App link under 'LAST EXECUTION RESULT' to view your demonstration app, it should look like the screenshot at the top of this page. Note that Hyperledger Composer is used to store the state of shipments, importers, growers, shippers on the blockchain, while the contract logic is invoked out-of-process using the Cicero Server.  Follow the instructions
+Click the Client App link under `LAST EXECUTION RESULT` to view your demonstration app, it should look like the screenshot at the top of this page. Note that Hyperledger Composer is used to store the state of shipments, importers, growers, shippers on the blockchain, while the contract logic is invoked out-of-process using the Cicero Server.  Follow the instructions
 
 <img src="docs/pipeline.png" width="750">
 
@@ -88,7 +88,7 @@ Click the Client App link under 'LAST EXECUTION RESULT' to view your demonstrati
 * **How to integrate Clause with Blockchain**: Learn about the 4 ways you can integrate Smart Legal Contracts from Clause with Blockchain. [Integrate Clause with Blockchain](https://clause.elevio.help/en/articles/11)
 
 # License
-This code pattern is licensed under the Apache Software License, Version 2. Separate third party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the Developer [Certificate of Origin, Version 1.1 (“DCO”)] (https://developercertificate.org/) and the [Apache Software License, Version 2]( (http://www.apache.org/licenses/LICENSE-2.0.txt).
+This code pattern is licensed under the Apache Software License, Version 2. Separate third party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the Developer [Certificate of Origin, Version 1.1 (“DCO”)](https://developercertificate.org/) and the [Apache Software License, Version 2](http://www.apache.org/licenses/LICENSE-2.0.txt).
 
 ASL FAQ link: http://www.apache.org/foundation/license-faq.html#WhatDoesItMEAN
 
